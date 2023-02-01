@@ -1,11 +1,24 @@
 package com.example.Vendas.domain.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "cliente")  //nao necessaria se o nome da tabela é o mesmo da classe
 public class Cliente {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "nome", length = 100)
     private String nome;
 
     public Cliente() {
+    }
+
+    public Cliente(String nome) {
+        this.nome = nome;
     }
 
     public Cliente(Integer id, String nome) {
@@ -27,5 +40,13 @@ public class Cliente {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                '}';
     }
 }

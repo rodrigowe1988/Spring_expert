@@ -41,7 +41,7 @@ public class Clientes {
         jdbcTemplate.update(DELETE, new Object[]{id});
     }
 
-    public List<Cliente> buscarTodosClientes (String nome) {
+    public List<Cliente> buscarTodosClientes () {
         return jdbcTemplate.query(SELECT_ALL, obterClienteMapper());
     }
 
