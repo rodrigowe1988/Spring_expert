@@ -1,6 +1,7 @@
 package com.example.Vendas.domain.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "cliente")  //nao necessaria se o nome da tabela é o mesmo da classe
@@ -13,6 +14,9 @@ public class Cliente {
 
     @Column(name = "nome", length = 100)
     private String nome;
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<Pedido> pedidos;
 
     public Cliente() {
     }
