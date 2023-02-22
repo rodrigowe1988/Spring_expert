@@ -1,5 +1,6 @@
 package com.example.Vendas.domain.repositories;
 
+import ch.qos.logback.core.net.server.Client;
 import com.example.Vendas.domain.entities.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -27,4 +28,9 @@ public interface Clientes extends JpaRepository<Cliente, Integer> {
     void deleteByNome(String nome);
 
     boolean existsByNome(String nome);
+
+    @Query(" select c from Cliente c left join fetch c.pedidos where c.id =:id ")
+    Cliente findClienteFetchPedidos(@Param("id") Integer id);
+
+
 }
