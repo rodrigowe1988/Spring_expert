@@ -1,15 +1,50 @@
 package com.example.Vendas.rest.controller;
 
+import com.example.Vendas.domain.entities.Cliente;
+import com.example.Vendas.domain.repositories.Clientes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/")
 public class ClienteController {
+
+    @Autowired
+    private Clientes clientes;
 
     @GetMapping(value = "/hello/{nome}")
     @ResponseBody
     public String helloCliente(@PathVariable("nome") String nomeCliente) {
         return String.format("Hello %s ", nomeCliente);
+    }
+
+    @GetMapping("clientes")
+    public ResponseEntity<List<Cliente>> findAll() {
+        List<Cliente> list = clientes.findAll();
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("clientes/{id}")
+    @ResponseBody
+    public ResponseEntity getClienteById(@PathVariable Integer id) {
+        Optional<Cliente> cliente = clientes.findById(id);
+        if (cliente.isPresent()) {
+            return ResponseEntity.ok(cliente.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseBody save(@RequestBody Cliente cliente ) {
+       return null;
     }
 }

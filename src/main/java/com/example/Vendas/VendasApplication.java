@@ -19,6 +19,18 @@ import java.util.Optional;
 @SpringBootApplication
 public class VendasApplication {
 
+    @Bean
+    public CommandLineRunner commandLineRunner(@Autowired Clientes clientes) {
+        return args -> {
+            Cliente c1 = new Cliente(null, "Fulano");
+            Cliente c2 =  new Cliente(null, "Ciclano");
+            Cliente c3 = new Cliente(null, "Beltrano");
+            clientes.save(c1);
+            clientes.save(c2);
+            clientes.save(c3);
+        };
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(VendasApplication.class, args);
     }
