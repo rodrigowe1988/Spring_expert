@@ -42,9 +42,11 @@ public class ClienteController {
         }
     }
 
-    @PostMapping
+    @PostMapping("clientes")
     @ResponseBody
-    public ResponseBody save(@RequestBody Cliente cliente ) {
-       return null;
+    public ResponseEntity save(@RequestBody Cliente cliente) {
+        Cliente clienteSalvo = clientes.save(cliente);
+
+        return ResponseEntity.ok(clienteSalvo);
     }
 }
