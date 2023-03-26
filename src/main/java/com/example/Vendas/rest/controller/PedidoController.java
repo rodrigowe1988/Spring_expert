@@ -3,6 +3,8 @@ package com.example.Vendas.rest.controller;
 import com.example.Vendas.domain.entities.Pedido;
 import com.example.Vendas.domain.entities.Produto;
 import com.example.Vendas.domain.repositories.Pedidos;
+import com.example.Vendas.rest.dto.PedidoDTO;
+import com.example.Vendas.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -20,61 +22,74 @@ public class PedidoController {
     @Autowired
     private Pedidos repository;
 
-    @GetMapping
-    public ResponseEntity<List<Pedido>> findAll() {
-        List<Pedido> list = repository.findAll();
-
-        return ResponseEntity.ok().body(list);
-    }
+    @Autowired
+    private PedidoService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Pedido save(@RequestBody Pedido pedido) {
-        return repository.save(pedido);
+    public Integer save(@RequestBody PedidoDTO dto) {
+        Pedido pedido = service.salvar(dto);
+        return pedido.getId();
     }
 
-    @PutMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Integer id, @RequestBody Pedido pedido) {
-        repository
-                .findById(id)
-                .map( p -> {
-                    pedido.setId(p.getId());
-                    repository.save(pedido);
-                    return pedido;
-                }).orElseThrow( () ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "Pedido não encontrado!"));
-    }
 
-    @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Integer id) {
-        repository
-                .findById(id)
-                .map( p -> {
-                    repository.delete(p);
-                    return Void.TYPE;
-                }).orElseThrow( () ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!"));
-    }
-
-    @GetMapping("{id}")
-    public Pedido getById(@PathVariable Integer id) {
-        return repository
-                .findById(id)
-                .orElseThrow( () ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!"));
-    }
-
-    @GetMapping("/pedidos_busca_especifica")
-    public List<Pedido> find(Pedido filtro) {
-        ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-
-        Example example = Example.of(filtro, matcher);
-        return repository.findAll(example);
-    }
+//    IMPLEMENTAÇAO DOS METODOS USANDO PRODUTOCONTROLLER E CLIENTE CONTROLLER COMO BASE
+//
+//    @GetMapping
+//    public ResponseEntity<List<Pedido>> findAll() {
+//        List<Pedido> list = repository.findAll();
+//
+//        return ResponseEntity.ok().body(list);
+//    }
+//
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Pedido save(@RequestBody Pedido pedido) {
+//        return repository.save(pedido);
+//    }
+//
+//    @PutMapping("{id}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void update(@PathVariable Integer id, @RequestBody Pedido pedido) {
+//        repository
+//                .findById(id)
+//                .map( p -> {
+//                    pedido.setId(p.getId());
+//                    repository.save(pedido);
+//                    return pedido;
+//                }).orElseThrow( () ->
+//                        new ResponseStatusException(HttpStatus.NOT_FOUND,
+//                                "Pedido não encontrado!"));
+//    }
+//
+//    @DeleteMapping("{id}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void delete(@PathVariable Integer id) {
+//        repository
+//                .findById(id)
+//                .map( p -> {
+//                    repository.delete(p);
+//                    return Void.TYPE;
+//                }).orElseThrow( () ->
+//                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!"));
+//    }
+//
+//    @GetMapping("{id}")
+//    public Pedido getById(@PathVariable Integer id) {
+//        return repository
+//                .findById(id)
+//                .orElseThrow( () ->
+//                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!"));
+//    }
+//
+//    @GetMapping("/pedidos_busca_especifica")
+//    public List<Pedido> find(Pedido filtro) {
+//        ExampleMatcher matcher = ExampleMatcher
+//                .matching()
+//                .withIgnoreCase()
+//                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+//
+//        Example example = Example.of(filtro, matcher);
+//        return repository.findAll(example);
+//    }
 }
