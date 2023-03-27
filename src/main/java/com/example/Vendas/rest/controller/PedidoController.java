@@ -57,6 +57,7 @@ public class PedidoController {
                 .cpf(pedido.getCliente().getCpf())
                 .nomeCliente(pedido.getCliente().getNome())
                 .total(pedido.getTotal())
+                .status(pedido.getStatus().name())
                 .items(converter(pedido.getItens()))
                 .build();
     }
@@ -74,63 +75,4 @@ public class PedidoController {
         ).collect(Collectors.toList());
     }
 
-//    IMPLEMENTAÇAO DOS METODOS USANDO PRODUTOCONTROLLER E CLIENTE CONTROLLER COMO BASE
-//
-//    @GetMapping
-//    public ResponseEntity<List<Pedido>> findAll() {
-//        List<Pedido> list = repository.findAll();
-//
-//        return ResponseEntity.ok().body(list);
-//    }
-//
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Pedido save(@RequestBody Pedido pedido) {
-//        return repository.save(pedido);
-//    }
-//
-//    @PutMapping("{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void update(@PathVariable Integer id, @RequestBody Pedido pedido) {
-//        repository
-//                .findById(id)
-//                .map( p -> {
-//                    pedido.setId(p.getId());
-//                    repository.save(pedido);
-//                    return pedido;
-//                }).orElseThrow( () ->
-//                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-//                                "Pedido não encontrado!"));
-//    }
-//
-//    @DeleteMapping("{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void delete(@PathVariable Integer id) {
-//        repository
-//                .findById(id)
-//                .map( p -> {
-//                    repository.delete(p);
-//                    return Void.TYPE;
-//                }).orElseThrow( () ->
-//                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!"));
-//    }
-//
-//    @GetMapping("{id}")
-//    public Pedido getById(@PathVariable Integer id) {
-//        return repository
-//                .findById(id)
-//                .orElseThrow( () ->
-//                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!"));
-//    }
-//
-//    @GetMapping("/pedidos_busca_especifica")
-//    public List<Pedido> find(Pedido filtro) {
-//        ExampleMatcher matcher = ExampleMatcher
-//                .matching()
-//                .withIgnoreCase()
-//                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-//
-//        Example example = Example.of(filtro, matcher);
-//        return repository.findAll(example);
-//    }
 }
